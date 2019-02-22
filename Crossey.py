@@ -35,20 +35,51 @@ scenes = {
         "description" : "This is a town square. There are villagers milling about. There is a clock tower in the center.",
         "commands" : [ "north", "south", "east", "west", "look", "attack villager" ] ,
     },
-    "hallway" : {
-        "description" : "You find yourself in a long hallway. At the north end is a goblin, it may be dead already.",
-        "commands" : [ "north", "south", "east", "west", "look", "attack" ],
-    },
-    "vault" : {
-        "description" : "Behind the dead goblin, you find a big vault. The only interesting feature is a big button on the front that says \"Do not press me.\"",
+    "warehouse" : {
+        "description" : "You approach a warehouse, There is only one entry, it seems to be locked.",
         "commands" : [ "south", "press button" ],
     },
     "Great_Hall" : {
-        "description" : "You are in the town's Great Hall. Inside is a long table with chairs all around it. At the head sits a depressed man, who seems to be a Baron. There are rooms all arund the hall.",
+        "description" : "You are in the town's Great Hall. Inside is a long table with chairs all around it. At the head sits a depressed man, who seems to be important. There are rooms all around the hall.",
         "commands" : [ "north", "south", "east", "west", "look", "talk to baron", "explore" ],
+    },
+    "mill" : {
+        "description" : "You enter a mill, it reeks of wheat and barley. There is a circular staircase in fron of you that is locked by a gate. There are tables spread out in the room, and a man working the grindstone.",
+        "commands" : [ "south", "east", "west", "look", "talk to Miller" ],
+    },
+    "inn" : {
+        "description" : "You enter an inn. Almost every table is full. You friend Criaf sits at the bar. A mysterious looking man leans against the wall in the corner.",
+        "commands" : [ "north", "south", "west", "look", "talk to Criaf", "explore", "approach man", "buy a drink" ],
+    },
+    "church" : {
+        "description" : "You enter a church.",
+        "commands" : [ "north", "south", "west", "look", "talk to Criaf", "explore", "approach man", "buy a drink" ],
+    },
+    "camp" : {
+        "description" : "You approach the camp of the Red Knights.",
+        "commands" : [ "north", "south", "west", "look", "talk to Criaf", "explore", "approach man", "buy a drink" ],
+    },
+    "jail" : {
+        "description" : "You enter a jail. A guard sits at the desk",
+        "commands" : [ "north", "south", "west", "look", "talk to Criaf", "explore", "approach man", "buy a drink" ],
+    },
+    "docks" : {
+        "description" : "You stand on the docks of the city. ",
+        "commands" : [ "north", "south", "west", "look", "talk to Criaf", "explore", "approach man", "buy a drink" ],
+    },
+    "wall_e" : {
+        "description" : "You approach the city wall, and West gate. Guards guard the gate.",
+        "commands" : [ "enter city", "exit city", "dance", "attack guard", "climb wall", "talk to guard"],
+    },
+    "wall_s" : {
+        "description" : "You approach the city wall, and South gate. Guards guard the gate.",
+        "commands" : [ "enter city", "exit city", "dance", "attack guard", "climb wall", "talk to guard"],
+    },
+    "wall_w" : {
+        "description" : "You approach the city wall, and East gate. Guards guard the gate.",
+        "commands" : [ "enter city", "exit city", "dance", "attack guard", "climb wall", "talk to guard"],
     }
 }
-
 inventory = ["sword", "gold", "clothes"]
 
 playerScene = "Town_Square"
@@ -57,11 +88,14 @@ print(playerHealth)
 playerPoints = 0
 playerHasKilledGoblin = False
 takePaperAllowed = False
-hallExplored = True
+hallExplored = False
+millExplored = False
+tookPaper = False
+tookChalk = False
 
 # The brains of the operation
 def runScene():
-
+    global playerScene, playerHealth, playerPoints, playerHasKilledGoblin, tookChalk, lose_health, takePaperAllowed, hallExplored, millExplored, tookPaper
     # Make sure the player is alive
     if( playerHealth > 0 ):
         # Print the current scene's description
@@ -75,13 +109,23 @@ def runScene():
         if( command == "help" ):
             print( scenes[playerScene]["commands"] )
             print( "" )
-            print("Your health is " + playerHealth + ".")
+            print("Your health is " + str(playerHealth) + ".")
             print( "" )
             runScene()
         elif(command == "inventory"):
             print(inventory)
             print("")
             runScene()
+        elif(command == "draw circle"):
+            if(tookChalk):
+                print("You draw a circle on the ground with your chalk. You stand in it, and are teleported away!!!!")
+                print("")
+                playerScene = "warehouse"
+                runScene()
+            else:
+                print("Sorry, this scene does not support that command.")
+                print( "" )
+                runScene()
         # Check if the command is in the list of available commands, run it if it is
         elif( command in scenes[playerScene]["commands"] ):
             runCommand( playerScene, command )
@@ -99,7 +143,7 @@ def runScene():
 def runCommand(scene,command):
 
     # These are global variables which we want to modify globally
-    global playerScene, playerHealth, playerPoints, playerHasKilledGoblin, lose_health, takePaperAllowed, hallExplored
+    global playerScene, playerHealth, playerPoints, playerHasKilledGoblin, tookChalk, lose_health, takePaperAllowed, hallExplored, millExplored, tookPaper
 
     # Our start scene and each command available
     if( scene == "Town_Square" ):
@@ -111,7 +155,7 @@ def runCommand(scene,command):
         elif( command == "south" ):
             print( "You go south." )
             print( "" )
-            playerScene = "wall1"
+            playerScene = "wall_s"
             runScene()
         elif( command == "west" ):
             print( "You go west." )
@@ -129,13 +173,10 @@ def runCommand(scene,command):
             playerHealth = playerHealth - lose_health
             print("You lost " + str(lose_health) + " health! You killed the villager, and are arrested.")
             print("")
+            print("The game is over, you lose.")
             sys.exit()
         elif( command == "look" ):
             print( "A massive duel was recently fought here. The clock tower shows the correct time, and does not seem our of the ordinary." )
-            print( "" )
-            runScene()
-        elif( command == "inventory" ):
-            print(inventory)
             print( "" )
             runScene()
     # The warehouse scene
@@ -170,7 +211,7 @@ def runCommand(scene,command):
             runScene()
         elif( command == "talk to baron" ):
             print( "You approach the depressed man. He seem to be a baron. He asks you for help. He needs someone to deliver a sealed message to the head of the Red Knights." )
-            scenes["Great_Hall"]["commands"].append("take paper");
+            scenes["Great_Hall"]["commands"].append("take letter");
             takePaperAllowed = True
             print( "" )
             runScene()
@@ -200,17 +241,70 @@ def runCommand(scene,command):
             if(hallExplored):
                 inventory.append("chalk")
                 print("You take the chalk.")
+                tookChalk = True
+                print( "" )
                 runScene()
         elif( command == "take knife" ):
             if(hallExplored):
                 inventory.append("magical knife")
                 print("You take the knife.")
+                print( "" )
                 runScene()
-        elif( command == "take paper" ):
+        elif( command == "take letter" ):
             if(takePaperAllowed):
                 inventory.append("letter from baron")
-                print("You take the paper.")
+                print("You take the letter.")
+                tookPaper = True
+                print( "" )
                 runScene()
+    elif( scene == "inn" ):
+        if( command == "south" ):
+            print( "You go south." )
+            print( "" )
+            playerScene = "church"
+            runScene()
+        elif( command == "north" ):
+            print( "You go north.")
+            print("")
+            playerScene = "warehouse"
+            runScene()
+        elif( command == "attack" ):
+            print( "Like a maniac you attack the goblin, it was an easy fight and you kill the goblin. You got 100 points!" )
+            print( "" )
+            playerHasKilledGoblin = True
+            playerPoints = playerPoints + 100
+            runScene()
+        elif( command == "look" ):
+            print( "You take your time to look around. While you sit there like an idiot, the goblin attacks and hurts you." )
+            print( "" )
+            playerHealth = playerHealth - 50
+    elif( scene == "mill" ):
+        if( command == "south" ):
+            print( "You go south." )
+            print( "" )
+            playerScene = "Great_Hall"
+            runScene()
+        elif( command == "east" ):
+            print( "You go east.")
+            print("")
+            playerScene = "wall_e"
+            runScene()
+        elif( command == "look" ):
+            print( "You take your time to look around. You notice keys on one of the tables. Miller the miller has a strange tatoo of a staff on his wrist. There also seems to be a large amount of food in here, much more than the village needs." )
+            print( "" )
+            scenes["mill"]["commands"].append("take keys");
+            millExplored = True
+            runScene()
+        elif( command == "take keys"):
+            if millExplored:
+                print("You take the keys quickly.")
+                print( "" )
+                inventory.append("keys")
+                runScene()
+        elif( command == "talk to miller"):
+            print("Why hello there lad! Quite a nice day, eh? Take your time to look around, and when your done I'll be seeing you!")
+            print( "" )
+            runScene()
     else:
         print( "Scene not found, error." )
 
