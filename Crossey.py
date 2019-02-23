@@ -100,6 +100,7 @@ tookChalk = False
 tookKnife = False
 hasNote = False
 tookKeys = False
+prayUse = 0
 
 
 # The brains of the operation
@@ -164,7 +165,7 @@ def runScene():
 def runCommand(scene,command):
 
     # These are global variables which we want to modify globally
-    global playerScene, playerHealth, playerPoints, tookKeys, MageHealth, climbChance, playerHasKilledGoblin, tookChalk, lose_health, hasNote, takePaperAllowed, hallExplored, millExplored, tookPaper, tookKnife, fall_damage
+    global playerScene, playerHealth, playerPoints, prayUse, tookKeys, MageHealth, climbChance, playerHasKilledGoblin, tookChalk, lose_health, hasNote, takePaperAllowed, hallExplored, millExplored, tookPaper, tookKnife, fall_damage
 
     # Our start scene and each command available
     if( scene == "Town_Square" ):
@@ -197,7 +198,7 @@ def runCommand(scene,command):
             print("The game is over, you lose.")
             sys.exit()
         elif( command == "look" ):
-            print( "A massive duel was recently fought here. The clock tower shows the correct time, and does not seem our of the ordinary." )
+            print( "A massive duel was recently fought here. The clock tower shows the correct time, and does not seem out of the ordinary." )
             print( "" )
             runScene()
     #Warehouse
@@ -279,6 +280,7 @@ def runCommand(scene,command):
                 inventory.append("chalk")
                 print("You take the chalk.")
                 scenes["final_battle"]["commands"].append("draw lines with chalk");
+                scenes["Great_Hall"]["commands"].remove("take chalk");
                 tookChalk = True
                 print( "" )
                 runScene()
@@ -287,6 +289,7 @@ def runCommand(scene,command):
                 inventory.append("magical knife")
                 print("You take the knife.")
                 scenes["final_battle"]["commands"].append("throw knife");
+                scenes["Great_Hall"]["commands"].remove("take knife");
                 tookKnife = True
                 print( "" )
                 runScene()
@@ -385,7 +388,7 @@ def runCommand(scene,command):
     #Church
     elif( scene == "church" ):
         if( command == "north" ):
-            print( "You go south." )
+            print( "You go north." )
             print( "" )
             playerScene = "inn"
             runScene()
@@ -408,6 +411,8 @@ def runCommand(scene,command):
             print( "You swim in the fountain and gain healing properties! Your health increases. The priest becomes angry and sends you away.")
             playerHealth = playerHealth*2
             print("")
+            playerScene = "inn"
+            scenes["church"]["commands"].remove("swim in fountain");
             runScene()
     #Camp
     elif( scene == "camp" ):
@@ -463,8 +468,13 @@ def runCommand(scene,command):
             else:
                 print("You are disarmed, and sent to prison for life.")
             print("")
+        elif( command == "talk to guard" ):
+            print( "The guard ignores you and startes off into the distance ominously." )
+            print( "" )
+            runScene()
         elif( command == "climb wall"):
             print("You attempt to climb the wall.")
+            print("")
             climbChance = randint(1,2)
             if climbChance == 1:
                 print("You climb the wall successfully, but the guards stop you on the other side, and send you out of the city.")
@@ -508,8 +518,13 @@ def runCommand(scene,command):
                 else:
                     print("You are disarmed, and sent to prison for life.")
                 print("")
+            elif( command == "talk to guard" ):
+                print( "The guard ignores you and startes off into the distance ominously." )
+                print( "" )
+                runScene()
             elif( command == "climb wall"):
                 print("You attempt to climb the wall.")
+                print("")
                 climbChance = randint(1,2)
                 if climbChance == 1:
                     print("You climb the wall successfully, but the guards stop you on the other side, and send you out of the city.")
@@ -550,6 +565,7 @@ def runCommand(scene,command):
                 print("")
             elif( command == "climb wall"):
                 print("You attempt to climb the wall.")
+                print("")
                 climbChance = randint(1,2)
                 if climbChance == 1:
                     print("You climb the wall successfully, but the guards stop you on the other side, and send you out of the city.")
@@ -562,6 +578,10 @@ def runCommand(scene,command):
                     playerScene = "jail"
                     print("")
                     runScene()
+            elif( command == "talk to guard" ):
+                print( "The guard ignores you and startes off into the distance ominously." )
+                print( "" )
+                runScene()
 
     #Jail
     elif(scene == "jail"):
@@ -628,7 +648,7 @@ def runCommand(scene,command):
             print("You deal " + str(hitMage) + " damage!")
             print("")
             print("The Mage swings his staff, and bludgeons you.")
-            hitPlayer = randint(3,6)
+            hitPlayer = randint(2,5)
             print("")
             print("The Mage deals " + str(hitPlayer) + " damage!")
             print("")
@@ -711,18 +731,24 @@ def runCommand(scene,command):
             else:
                 print("You have defeated the mage, he disappears in a fade of light, and you leave. You have become the Protector of Pithon.")
         elif(command == "pray"):
-            print("You pray for a second, and a beam of light shines into the warehouse. Doves come and attack the Mage!")
-            doveHit = randint(8,12)
-            print("")
-            MageHealth = MageHealth - doveHit
-            print("The doves deal " + str(doveHit) + " damage!")
-            print("")
-            print("The Mage swings his staff, and bludgeons you.")
-            hitPlayer = randint(1,2)
-            print("")
-            print("The Mage deals " + str(hitPlayer) + " damage!")
-            print("")
-            playerHealth = playerHealth - hitPlayer
+            if prayUse < 3:
+                print("You pray for a second, and a beam of light shines into the warehouse. Doves come and attack the Mage!")
+                doveHit = randint(8,12)
+                print("")
+                MageHealth = MageHealth - doveHit
+                print("The doves deal " + str(doveHit) + " damage!")
+                print("")
+                print("The Mage swings his staff, and bludgeons you.")
+                hitPlayer = randint(1,2)
+                print("")
+                print("The Mage deals " + str(hitPlayer) + " damage!")
+                print("")
+                playerHealth = playerHealth - hitPlayer
+                prayUse = prayUse + 1
+            else:
+                scenes["final_battle"]["commands"].remove("pray");
+                print("Sorry, this scene does not support that command.")
+                print("")
             if MageHealth > 0:
                 runScene()
             else:
