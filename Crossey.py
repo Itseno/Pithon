@@ -464,12 +464,12 @@ def runCommand(scene,command):
             print("You attack the guards.")
             print("")
             if playerHealth > 15:
-                print("You kill them swiftly, but you are taken into custody.")
+                print("You kill him swiftly, but you are taken into custody.")
             else:
                 print("You are disarmed, and sent to prison for life.")
             print("")
         elif( command == "talk to guard" ):
-            print( "The guard ignores you and startes off into the distance ominously." )
+            print( "The guard ignores you and stares off into the distance ominously." )
             print( "" )
             runScene()
         elif( command == "climb wall"):
@@ -514,12 +514,12 @@ def runCommand(scene,command):
                 print("You attack the guards.")
                 print("")
                 if playerHealth > 15:
-                    print("You kill them swiftly, but you are taken into custody.")
+                    print("You kill him swiftly, but you are taken into custody.")
                 else:
                     print("You are disarmed, and sent to prison for life.")
                 print("")
             elif( command == "talk to guard" ):
-                print( "The guard ignores you and startes off into the distance ominously." )
+                print( "The guard ignores you and stares off into the distance ominously." )
                 print( "" )
                 runScene()
             elif( command == "climb wall"):
@@ -559,7 +559,7 @@ def runCommand(scene,command):
                 print("You attack the guards.")
                 print("")
                 if playerHealth > 15:
-                    print("You kill them swiftly, but you are taken into custody.")
+                    print("You kill him swiftly, but you are taken into custody.")
                 else:
                     print("You are disarmed, and sent to prison for life.")
                 print("")
@@ -579,7 +579,7 @@ def runCommand(scene,command):
                     print("")
                     runScene()
             elif( command == "talk to guard" ):
-                print( "The guard ignores you and startes off into the distance ominously." )
+                print( "The guard ignores you and stares off into the distance ominously." )
                 print( "" )
                 runScene()
 
