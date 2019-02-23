@@ -696,7 +696,7 @@ def runCommand(scene,command):
             if MageHealth > 0:
                 runScene()
             else:
-                print("You have defeated the mage, he disappears in a fade of light, and you leave. You have become the Protector of Pithon.")
+                print("You have defeated the mage, he disappears in a fade of light, and you leave. You have become the Protector of Pithon!")
         elif(command == "drink potion"):
             print("You drink the potion, and become invisible. You sneak around behind the mage, and attack with your sword!")
             print("")
@@ -731,7 +731,7 @@ def runCommand(scene,command):
         print( "Scene not found, error." )
 
 # The opening description for the game, along with some simple instructions
-print("Welcome to Pithon!\n\nYou attend a famous duel in the city of Pithon. During the duel of a Famouse Mage and the Leader of the Red Knights, they both disappear! Onlookers are shocked!\n\nYou notice a group of hooded figures depart, but you don't know where...\n\nYou also see a sad looking man head to the north.")
+print("Welcome to Pithon!\n\nYou attend a famous duel in the city of Pithon. During the duel of a Famous Mage and the Leader of the Red Knights, they both disappear! Onlookers are shocked!\n\nYou notice a group of hooded figures depart, but you don't know where...\n\nYou also see a sad looking man head to the north.")
 print( "" )
 print("Your friend, Criaf, heads back to the east.")
 print( "" )
