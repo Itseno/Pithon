@@ -461,7 +461,7 @@ def runCommand(scene,command):
             print( "" )
             runScene()
         elif( command == "attack guard"):
-            print("You attack the guards.")
+            print("You attack the guard.")
             print("")
             if playerHealth > 15:
                 print("You kill him swiftly, but you are taken into custody.")
@@ -511,7 +511,7 @@ def runCommand(scene,command):
                 print( "" )
                 runScene()
             elif( command == "attack guard"):
-                print("You attack the guards.")
+                print("You attack the guard.")
                 print("")
                 if playerHealth > 15:
                     print("You kill him swiftly, but you are taken into custody.")
@@ -556,7 +556,7 @@ def runCommand(scene,command):
                 print( "" )
                 runScene()
             elif( command == "attack guard"):
-                print("You attack the guards.")
+                print("You attack the guard.")
                 print("")
                 if playerHealth > 15:
                     print("You kill him swiftly, but you are taken into custody.")
