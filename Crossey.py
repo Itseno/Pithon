@@ -41,7 +41,7 @@ scenes = {
     },
     "Great_Hall" : {
         "description" : "You are in the town's Great Hall. Inside is a long table with chairs all around it. At the head sits a depressed man, who seems to be important. There are rooms all around the hall.",
-        "commands" : [ "north", "south", "east", "look", "talk to baron", "explore" ],
+        "commands" : [ "north", "south", "east", "talk to baron", "explore" ],
     },
     "mill" : {
         "description" : "You enter a mill, it reeks of wheat and barley. There is a circular staircase in fron of you that is locked by a gate. There are tables spread out in the room, and a man working the grindstone.",
